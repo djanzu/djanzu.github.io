@@ -1,26 +1,70 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Posts on Djanzuのメモ帳</title>
-    <link>http://localhost:1313/posts/</link>
-    <description>Recent content in Posts on Djanzuのメモ帳</description>
-    <generator>Hugo</generator>
-    <language>ja-jp</language>
-    <lastBuildDate>Sun, 07 Dec 2025 17:01:57 +0900</lastBuildDate>
-    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Muemue</title>
-      <link>http://localhost:1313/posts/muemue/</link>
-      <pubDate>Sun, 07 Dec 2025 17:01:57 +0900</pubDate>
-      <guid>http://localhost:1313/posts/muemue/</guid>
-      <description>&lt;p&gt;ほおほおほお&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Dify, LangChain, RAGについて知り得たことまとめ</title>
-      <link>http://localhost:1313/posts/dify-lang-chain-rag/</link>
-      <pubDate>Sun, 07 Dec 2025 15:57:28 +0900</pubDate>
-      <guid>http://localhost:1313/posts/dify-lang-chain-rag/</guid>
-      <description>&lt;h1 id=&#34;dify-langchain-ragについて知り得たことまとめ&#34;&gt;Dify, LangChain, RAGについて知り得たことまとめ&lt;/h1&gt;&#xA;&lt;h2 id=&#34;注意&#34;&gt;※注意&lt;/h2&gt;&#xA;&lt;p&gt;こちらは自分が調べて知ったことをまとめているだけです。&lt;br&gt;&#xA;常に不完全な状態で公開をしていますので、誤った記述が存在する可能性があります。&lt;/p&gt;&#xA;&lt;h2 id=&#34;動作環境&#34;&gt;動作環境&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Hardware&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Macbook Pro M2Pro(Unified Memory: 32G)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;Software&#xA;&lt;ul&gt;&#xA;&lt;li&gt;LM Studio&lt;/li&gt;&#xA;&lt;li&gt;ollama&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;今回のテーマ&#34;&gt;今回のテーマ&lt;/h2&gt;&#xA;&lt;p&gt;せっかくRAGという概念を知ったので、自分でRAGを作ってみたくなったのがきっかけ。&lt;br&gt;&#xA;某草の根ネットの通信ログがなぜか手元にあるので、それを使ってみたいと思いました。&lt;/p&gt;&#xA;&lt;p&gt;理想的なゴールは以下の問いに対して、適切に答えてもらうこと。&lt;br&gt;&#xA;&lt;code&gt;「双制溶断がスポスタ不買運動を言い出したのは、いつのどのボードの発言ですか？」&lt;/code&gt;&lt;/p&gt;&#xA;&lt;p&gt;そのためにLangChainやDifyを使ってみました。&lt;br&gt;&#xA;あと、できれば全部無料でやりたい、というのがあります。&lt;br&gt;&#xA;（将来的にDGX Sparkを買いたいなって。）&lt;/p&gt;&#xA;&lt;h2 id=&#34;通信ログの正規化&#34;&gt;通信ログの正規化&lt;/h2&gt;&#xA;&lt;p&gt;チャッピーに相談して、通信ログは正規化しておいたほうが良いですよ、ということで正規化のロジックを作ってもらいました。&lt;br&gt;&#xA;結論から言うと結局これを使わなくてもできました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;langchainでやってみた&#34;&gt;LangChainでやってみた&lt;/h2&gt;&#xA;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/langchain1.png&#34; alt=&#34;LangChainで&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;このpythonでは&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;text embeddingに&lt;code&gt;ollama + nomic-embed-text:latest&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;推論用に &lt;code&gt;ollma + gemma:latest&lt;/code&gt; と &lt;code&gt;gpt-oss:20b&lt;/code&gt;&#xA;を使いました。　&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;code&gt;「軍歌」についての話題が出ていたので、バスの中で軍歌を歌うのは誰ですか？&lt;/code&gt;と質問してみました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;difyでやってみた&#34;&gt;Difyでやってみた&lt;/h2&gt;&#xA;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/dify1.png&#34; alt=&#34;Difyで&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;ナレッジに、ログファイルをいくつかsjis→utf-8、および拡張子変更をし、追加しました。&#xA;embeddingの際に&#xA;Gemini3を使った時に、間髪入れずリクエストを発行しているようでレートリミットにすぐに到達&#xA;LM Studioでやった時&lt;/p&gt;&#xA;&lt;p&gt;システムモデルの設定がOpenAI/GPT-3.5になっていたため、知識検索がうまくできなかった&lt;/p&gt;&#xA;&lt;p&gt;最終的にollama&lt;/p&gt;&#xA;&lt;h2 id=&#34;おまけ&#34;&gt;おまけ&lt;/h2&gt;&#xA;&lt;p&gt;こういうのを特に手を動かさず生成AIに作らせてアフィリエイト盛りだくさんで稼いでいる人もいるんだよなあ。&lt;br&gt;&#xA;なんかオープンソースにただ乗りしているみたいでやだね。&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Djanzuのメモ帳</title><link>https://djanzu.github.io/posts/</link><description>Recent content in Posts on Djanzuのメモ帳</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sun, 07 Dec 2025 15:57:28 +0900</lastBuildDate><atom:link href="https://djanzu.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Dify, LangChain, RAGについて知り得たことまとめ</title><link>https://djanzu.github.io/posts/dify-lang-chain-rag/</link><pubDate>Sun, 07 Dec 2025 15:57:28 +0900</pubDate><guid>https://djanzu.github.io/posts/dify-lang-chain-rag/</guid><description>
+&lt;h2 id="注意"&gt;※注意&lt;/h2&gt;
+&lt;p&gt;こちらは自分が調べて理解したことをまとめているだけです。&lt;br&gt;
+誤った記述が存在する可能性があります。&lt;/p&gt;
+&lt;h2 id="動作環境"&gt;動作環境&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Hardware
+&lt;ul&gt;
+&lt;li&gt;Macbook Pro M2Pro(Unified Memory: 32G)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Software
+&lt;ul&gt;
+&lt;li&gt;LM Studio&lt;/li&gt;
+&lt;li&gt;ollama&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="今回のテーマ"&gt;今回のテーマ&lt;/h2&gt;
+&lt;p&gt;せっかくRAGという概念を知ったので、自分でRAGを作ってみたくなったのがきっかけ。&lt;br&gt;
+某草の根ネット(net-cock)の通信ログがなぜか手元にあるので、それを使ってみたいと思いました。&lt;/p&gt;
+&lt;p&gt;理想的なゴールは以下の問いに対して、適切に答えてもらうこと。&lt;br&gt;
+&lt;code&gt;「双◯溶断がスポスタ不買運動を言い出したのは、いつのどのボードの発言ですか？」&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;そのためにLangChainやDifyを使ってみました。&lt;br&gt;
+あと、できれば全部無料でやりたい、というのがあります。&lt;br&gt;
+将来的にDGX Sparkを買いたいなと考えていますが、今のところもっと使い込む要素がないとただの無駄遣いになってしまいますね…。&lt;/p&gt;
+&lt;h2 id="通信ログの正規化"&gt;通信ログの正規化&lt;/h2&gt;
+&lt;p&gt;チャッピーに相談して、通信ログは正規化しておいたほうが良いですよ、ということで正規化のロジックを作ってもらいました。&lt;br&gt;
+結論から言うと結局これを使わない方が効率が良かったです。&lt;/p&gt;
+&lt;h2 id="langchainで検索ragをやってみた"&gt;LangChainで検索(RAG)をやってみた&lt;/h2&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
+&lt;img
+loading="lazy"
+decoding="async"
+alt="LangChainで"
+class="image_figure image_internal image_unprocessed"
+src="https://djanzu.github.io/images/langchain1.png"
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;このpythonでは&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;text embeddingに&lt;code&gt;ollama + nomic-embed-text:latest&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;推論用に &lt;code&gt;ollma + gemma:latest&lt;/code&gt; と &lt;code&gt;gpt-oss:20b&lt;/code&gt;
+を使いました。　&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;掲示板では「軍歌」についての話題が出ていたので、&lt;code&gt;バスの中で軍歌を歌うのは誰ですか？&lt;/code&gt;と質問してみました。&lt;/p&gt;
+&lt;h2 id="difyで検索ragをやってみた"&gt;Difyで検索(RAG)をやってみた&lt;/h2&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Difyで"
+class="image_figure image_internal image_unprocessed"
+src="https://djanzu.github.io/images/dify1.png"
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h3 id="ナレッジ登録"&gt;ナレッジ登録&lt;/h3&gt;
+&lt;p&gt;ナレッジに、ログファイルをいくつかsjis→utf-8、および拡張子変更をし、追加しました。
+また、ログファイルに&lt;code&gt;シリアルヘッダ&lt;/code&gt;が入っていたため（不正なエスケープシーケンス付き）それも除去しました。&lt;/p&gt;
+&lt;h4 id="-ナレッジ登録時にエラー"&gt;■ ナレッジ登録時にエラー&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;[models] Connectin Error, 429 RESOURCE EXHAUSTED&lt;/code&gt;&lt;br&gt;
+ナレッジ登録時のembedding modelを外部LLMのGemini3を使用しているため、&lt;br&gt;
+間髪入れずリクエストを発行しているようでレートリミットにすぐに到達。&lt;br&gt;
+そのため、embedding modelをローカルの &lt;code&gt;LM Studio + nomic-embed-text&lt;/code&gt; に変更。&lt;/p&gt;</description></item></channel></rss>
