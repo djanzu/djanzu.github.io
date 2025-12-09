@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Djanzuのメモ帳</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on Djanzuのメモ帳</description>
+    <generator>Hugo</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Sun, 07 Dec 2025 17:01:57 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Muemue</title>
+      <link>http://localhost:1313/posts/muemue/</link>
+      <pubDate>Sun, 07 Dec 2025 17:01:57 +0900</pubDate>
+      <guid>http://localhost:1313/posts/muemue/</guid>
+      <description>&lt;p&gt;ほおほおほお&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Dify, LangChain, RAGについて知り得たことまとめ</title>
+      <link>http://localhost:1313/posts/dify-lang-chain-rag/</link>
+      <pubDate>Sun, 07 Dec 2025 15:57:28 +0900</pubDate>
+      <guid>http://localhost:1313/posts/dify-lang-chain-rag/</guid>
+      <description>&lt;h1 id=&#34;dify-langchain-ragについて知り得たことまとめ&#34;&gt;Dify, LangChain, RAGについて知り得たことまとめ&lt;/h1&gt;&#xA;&lt;h2 id=&#34;注意&#34;&gt;※注意&lt;/h2&gt;&#xA;&lt;p&gt;こちらは自分が調べて知ったことをまとめているだけです。&lt;br&gt;&#xA;常に不完全な状態で公開をしていますので、誤った記述が存在する可能性があります。&lt;/p&gt;&#xA;&lt;h2 id=&#34;動作環境&#34;&gt;動作環境&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Hardware&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Macbook Pro M2Pro(Unified Memory: 32G)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;Software&#xA;&lt;ul&gt;&#xA;&lt;li&gt;LM Studio&lt;/li&gt;&#xA;&lt;li&gt;ollama&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;今回のテーマ&#34;&gt;今回のテーマ&lt;/h2&gt;&#xA;&lt;p&gt;せっかくRAGという概念を知ったので、自分でRAGを作ってみたくなったのがきっかけ。&lt;br&gt;&#xA;某草の根ネット(net-cock)の通信ログがなぜか手元にあるので、それを使ってみたいと思いました。&lt;/p&gt;&#xA;&lt;p&gt;理想的なゴールは以下の問いに対して、適切に答えてもらうこと。&lt;br&gt;&#xA;&lt;code&gt;「双◯溶断がスポスタ不買運動を言い出したのは、いつのどのボードの発言ですか？」&lt;/code&gt;&lt;/p&gt;&#xA;&lt;p&gt;そのためにLangChainやDifyを使ってみました。&lt;br&gt;&#xA;あと、できれば全部無料でやりたい、というのがあります。&lt;br&gt;&#xA;将来的にDGX Sparkを買いたいなと考えていますが、今のところもっと使い込む要素がないとただの無駄遣いになってしまいますね…。&lt;/p&gt;&#xA;&lt;h2 id=&#34;通信ログの正規化&#34;&gt;通信ログの正規化&lt;/h2&gt;&#xA;&lt;p&gt;チャッピーに相談して、通信ログは正規化しておいたほうが良いですよ、ということで正規化のロジックを作ってもらいました。&lt;br&gt;&#xA;結論から言うと結局これを使わない方が効率が良かったです。&lt;/p&gt;&#xA;&lt;h2 id=&#34;langchainでやってみた&#34;&gt;LangChainでやってみた&lt;/h2&gt;&#xA;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/langchain1.png&#34; alt=&#34;LangChainで&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;このpythonでは&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;text embeddingに&lt;code&gt;ollama + nomic-embed-text:latest&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;推論用に &lt;code&gt;ollma + gemma:latest&lt;/code&gt; と &lt;code&gt;gpt-oss:20b&lt;/code&gt;&#xA;を使いました。　&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;code&gt;「軍歌」についての話題が出ていたので、バスの中で軍歌を歌うのは誰ですか？&lt;/code&gt;と質問してみました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;difyでやってみた&#34;&gt;Difyでやってみた&lt;/h2&gt;&#xA;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/dify1.png&#34; alt=&#34;Difyで&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;ナレッジに、ログファイルをいくつかsjis→utf-8、および拡張子変更をし、追加しました。&#xA;また、ログファイルに&lt;code&gt;シリアルヘッダ&lt;/code&gt;が入っていたため（不正なエスケープシーケンス付き）それも除去しました。&lt;/p&gt;&#xA;&lt;p&gt;登録の際にGemini3を使用。&lt;br&gt;&#xA;どうやら間髪入れずリクエストを発行しているようでレートリミットにすぐに到達。&lt;/p&gt;&#xA;&lt;p&gt;LM Studioでやった時&lt;/p&gt;&#xA;&lt;h3 id=&#34;ワークフロー作成&#34;&gt;ワークフロー作成&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;知識検索がうまくできなかった&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;理由は、システムモデルの設定がOpenAI/GPT-3.5になっていたため。 &lt;br&gt;&#xA;アカウント→設定→モデルプロバイダーで設定をするも反映をしない模様。 &lt;br&gt;&#xA;ワークフロー一覧画面でDSL exportして、テキストを見たらGPT-3.5のままになってました。&lt;br&gt;&#xA;手動で書き換えて、インポート。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/dify2.png&#34; alt=&#34;システムモデル設定&#34;&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;知識検索の結果を結果ノードで直接出せない&#xA;&lt;ul&gt;&#xA;&lt;li&gt;いくら見ても知識検索のresultがないので、調べたら一度LLMを通す必要があり。&#xA;ここでモデルはlm studio + GPT-OSS-20bを指定しましたが…&#xA;lm studioのプラグインがmodeをサポートしていないため、lm studio側でpydantic errorが出ました。&#xA;→ollamaのGPT-OSS-20bを設定。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;最終的にembeddingもollamaにまかせてgot kotonaki。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
