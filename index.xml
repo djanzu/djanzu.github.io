@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Djanzuのメモ帳</title><link>https://djanzu.github.io/</link><description>Recent content on Djanzuのメモ帳</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sun, 07 Dec 2025 15:57:28 +0900</lastBuildDate><atom:link href="https://djanzu.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Dify, LangChain, RAGについて知り得たことまとめ</title><link>https://djanzu.github.io/posts/dify-lang-chain-rag/</link><pubDate>Sun, 07 Dec 2025 15:57:28 +0900</pubDate><guid>https://djanzu.github.io/posts/dify-lang-chain-rag/</guid><description>
-&lt;p&gt;記載日: 2025/12/10
-更新日: 2025/12/10&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Djanzuのメモ帳</title><link>https://djanzu.github.io/</link><description>Recent content on Djanzuのメモ帳</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sun, 07 Dec 2025 15:57:28 +0900</lastBuildDate><atom:link href="https://djanzu.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Dify, LangChainでRAGを作ってみた（途中）</title><link>https://djanzu.github.io/posts/dify-lang-chain-rag/</link><pubDate>Sun, 07 Dec 2025 15:57:28 +0900</pubDate><guid>https://djanzu.github.io/posts/dify-lang-chain-rag/</guid><description>
+&lt;p&gt;&lt;em&gt;最終更新日: 2025/12/13&lt;/em&gt;&lt;/p&gt;
 &lt;h2 id="注意"&gt;※注意&lt;/h2&gt;
-&lt;p&gt;こちらは自分が調べて理解したことをまとめているだけです。&lt;br&gt;
+&lt;p&gt;こちらは自分の記憶の整理でまとめているだけですので、&lt;br&gt;
 誤った記述が存在する可能性があります。&lt;/p&gt;
 &lt;h2 id="動作環境"&gt;動作環境&lt;/h2&gt;
 &lt;ul&gt;
@@ -17,9 +16,15 @@
 &lt;li&gt;ollama&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;Models
+&lt;ul&gt;
+&lt;li&gt;GPT-OSS-20b&lt;/li&gt;
+&lt;li&gt;nomic-embed-text&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="今回のテーマ"&gt;今回のテーマ&lt;/h2&gt;
-&lt;p&gt;せっかくRAGという概念を知ったので、自分でRAGを作ってみたくなったのがきっかけ。&lt;br&gt;
+&lt;p&gt;せっかくRAGという概念を知ったので、自分でRAGを作ってみたくなったのがきっかけです。&lt;br&gt;
 某草の根ネット(net-cock)の通信ログがなぜか手元にあるので、それを使ってみたいと思いました。&lt;/p&gt;
 &lt;p&gt;理想的なゴールは以下の問いに対して、適切に答えてもらうこと。&lt;br&gt;
 &lt;code&gt;「双◯溶断がスポスタ不買運動を言い出したのは、いつのどのボードの発言ですか？」&lt;/code&gt;&lt;/p&gt;
@@ -28,7 +33,7 @@
 将来的にDGX Sparkを買いたいなと考えていますが、今のところもっと使い込む要素がないとただの無駄遣いになってしまいますね…。&lt;/p&gt;
 &lt;h2 id="通信ログの正規化"&gt;通信ログの正規化&lt;/h2&gt;
 &lt;p&gt;チャッピーに相談して、通信ログは正規化しておいたほうが良いですよ、ということで正規化のロジックを作ってもらいました。&lt;br&gt;
-結論から言うと結局これを使わない方が効率が良かったです。&lt;/p&gt;
+正規化をするプログラムをチャッピーに作ってもらいましたが、jsonで10個ぐらいの項目に分けてくれたのは嬉しいのですが、トークンが逆に多くなってしまって使うのをやめました。&lt;/p&gt;
 &lt;h2 id="langchainで検索ragをやってみた"&gt;LangChainで検索(RAG)をやってみた&lt;/h2&gt;
 &lt;p&gt;&lt;figure&gt;
 &lt;picture&gt;
@@ -48,7 +53,8 @@ src="https://djanzu.github.io/images/langchain1.png"
 &lt;li&gt;推論用に &lt;code&gt;ollma + gemma:latest&lt;/code&gt; と &lt;code&gt;gpt-oss:20b&lt;/code&gt;
 を使いました。　&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;掲示板では「軍歌」についての話題が出ていたので、&lt;code&gt;バスの中で軍歌を歌うのは誰ですか？&lt;/code&gt;と質問してみました。&lt;/p&gt;
+&lt;p&gt;掲示板では「軍歌」についての話題が出ていたので、&lt;code&gt;バスの中で軍歌を歌うのは誰ですか？&lt;/code&gt;と質問してみました。&lt;br&gt;
+とりあえず拾えているようです。&lt;/p&gt;
 &lt;h2 id="difyで検索ragをやってみた"&gt;Difyで検索(RAG)をやってみた&lt;/h2&gt;
 &lt;p&gt;&lt;figure&gt;
 &lt;picture&gt;
